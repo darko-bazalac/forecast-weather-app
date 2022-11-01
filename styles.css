@@ -17,7 +17,6 @@ body {
 }
 
 #main-container {
-  background-image: url("sunny.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -126,7 +125,7 @@ input[type="text"]::placeholder {
   font-weight: 900;
   letter-spacing: 0.1rem;
   position: absolute;
-  border-left: 0.2rem solid rgba(255, 255, 255, 0.5);
+  border-left: 0.2rem solid #232222;
   top: 45%;
   left: 22.5rem;
   height: 10rem;
