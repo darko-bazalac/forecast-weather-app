@@ -103,14 +103,14 @@ input[type="text"]::placeholder {
   letter-spacing: 0.1rem;
 }
 
-.degrees {
+.temp {
   font-size: 15rem;
   font-weight: 900;
   font-family: "Nunito", sans-serif;
   position: relative;
 }
 
-.degrees::after {
+.temp::after {
   content: "\00B0 C";
   font-size: 3rem;
   position: absolute;
