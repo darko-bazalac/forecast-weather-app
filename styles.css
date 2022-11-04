@@ -25,6 +25,7 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  transition: background 3s ease-in-out;
 }
 
 header {
@@ -106,18 +107,10 @@ input[type="text"]::placeholder {
 }
 
 .temp {
-  font-size: 15rem;
+  font-size: 10rem;
   font-weight: 900;
   font-family: montserrat, sans-serif;
   position: relative;
-}
-
-.temp::after {
-  content: "\00B0 C";
-  font-size: 3rem;
-  position: absolute;
-  top: 1.8rem;
-  left: 17rem;
 }
 
 .weather-details {
@@ -128,8 +121,8 @@ input[type="text"]::placeholder {
   letter-spacing: 0.1rem;
   position: absolute;
   border-left: 0.2rem solid #232222;
-  top: 45%;
-  left: 22.5rem;
+  top: 50%;
+  left: 24.5rem;
   height: 10rem;
   padding-left: 3.5rem;
   justify-content: space-between;
@@ -137,14 +130,6 @@ input[type="text"]::placeholder {
 
 .feels-like {
   position: relative;
-}
-
-.feels-like::after {
-  content: "\00B0 C";
-  position: absolute;
-  bottom: 1rem;
-  left: 13rem;
-  font-size: 1rem;
 }
 
 .humidity::after {

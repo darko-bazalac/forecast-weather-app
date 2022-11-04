@@ -4,16 +4,18 @@ const mainContainer = document.getElementById("main-container");
 const errorMsg = document.querySelector(".error-msg");
 let regionNames = new Intl.DisplayNames(["en"], { type: "region" });
 const toggleSwitch = document.querySelector("[switch]");
+const temp = document.querySelector(".temp");
+const tempFeeling = document.querySelector(".feels-like");
+const wind = document.querySelector(".wind");
+
 let city = "Kraljevo";
-getData(city, "metric");
+let unit = "metric";
+getData(city, unit);
 
 searchBtn.addEventListener("click", fetchWeather);
 form.addEventListener("submit", fetchWeather);
-// celsiusBtn.addEventListener("click", () => {
-//   getData(city, "imperial");
-// });
 
-// Fetching API
+// Fetch API
 async function getData(city, units) {
   try {
     const resp = await fetch(
@@ -22,7 +24,7 @@ async function getData(city, units) {
     );
     const data = await resp.json();
     const newData = processData(data);
-    console.log(newData, data);
+
     errorMsg.style.display = "none";
     displayData(newData);
     form.reset();
@@ -46,7 +48,7 @@ function fetchWeather(e) {
   const input = document.querySelector('input[type="text"]');
   const userLocation = input.value;
   city = userLocation;
-  getData(userLocation, "metric");
+  getData(userLocation, unit);
 }
 
 // Processing collected data
@@ -57,7 +59,10 @@ function processData(data) {
     condition: data.weather[0].description.toUpperCase(),
     temp: Math.round(data.main.temp),
     feelsLike: Math.round(data.main.feels_like),
-    wind: Math.round(data.wind.speed * (18 / 5)),
+    wind:
+      unit === "metric"
+        ? Math.round(data.wind.speed * (18 / 5))
+        : Math.round(data.wind.speed),
     humidity: data.main.humidity,
     mainWeather: data.weather[0].main,
     timezone: data.timezone,
@@ -67,7 +72,8 @@ function processData(data) {
 // Displaying data on page
 function displayData(data) {
   mainContainer.style.backgroundImage = `url("images/${data.mainWeather}.jpg")`;
-
+  let metricOrImp = unit === "metric" ? "&degC" : "&degF";
+  let windMph = unit === "metric" ? "km/h" : "mph";
   const dateAndTime = data.timezone;
 
   const datePreview = (document.querySelector(".date").innerHTML =
@@ -77,23 +83,49 @@ function displayData(data) {
     data.city
   }, ${regionNames.of(data.country)}`);
 
-  const temp = (document.querySelector(".temp").innerHTML = `${data.temp}`);
+  temp.innerHTML = `${data.temp}${metricOrImp}`;
 
   const condition = (document.querySelector(
     ".condition",
   ).innerHTML = `${data.condition}`);
 
-  const tempFeeling = (document.querySelector(
-    ".feels-like",
-  ).innerHTML = `FEELS LIKE: ${data.feelsLike}`);
+  tempFeeling.innerHTML = `Feels like: ${data.feelsLike}${metricOrImp}`;
 
   const humidity = (document.querySelector(
     ".humidity",
-  ).innerHTML = `HUMIDITY: ${data.humidity}`);
+  ).innerHTML = `Humidity: ${data.humidity}`);
 
-  const wind = (document.querySelector(
-    ".wind",
-  ).innerHTML = `WIND: ${data.wind} km/h`);
+  wind.innerHTML = `Wind: ${data.wind}${windMph}`;
+
+  // Temp switch
+  let tempValue;
+  let tempFeelValue;
+  toggleSwitch.addEventListener("change", () => {
+    console.log(toggleSwitch.checked);
+    if (toggleSwitch.checked) {
+      unit = "imperial";
+      tempValue = toFahrenheit(data.temp);
+      tempFeelValue = toFahrenheit(data.feelsLike);
+      temp.innerHTML = `${tempValue + "&degF"}`;
+      tempFeeling.innerHTML = `${"Feels like: "}${tempFeelValue + "&degF"}`;
+      wind.innerHTML = `Wind: ${Math.round(data.wind * 0.6)} mph`;
+    } else {
+      tempValue = toCelsius(tempValue);
+      tempFeelValue = toCelsius(tempFeelValue);
+      temp.innerHTML = `${tempValue + "&degC"}`;
+      tempFeeling.innerHTML = `${"Feels like: "}${tempFeelValue + "&degC"}`;
+      wind.innerHTML = `Wind: ${data.wind} km/h`;
+      unit = "metric";
+    }
+  });
+}
+
+// Temp convert
+function toFahrenheit(temp) {
+  return Math.round(temp * 1.8 + 32);
+}
+function toCelsius(temp) {
+  return Math.round((temp - 32) * (5 / 9));
 }
 
 /*Get local time function */
