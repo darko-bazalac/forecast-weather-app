@@ -13,7 +13,7 @@
 <body>
   <div id="main-container">
     <header>
-      <form>
+      <form class="form-switch">
         <div class="form-group">
           <button class="submit-btn">
             <i class="fas fa-search"></i>
@@ -23,11 +23,21 @@
           <span class="error-msg">No matching location found!</span>
         </div>
       </form>
+      <label class="switch">
+        <input type="checkbox" switch />
+        <span class="slider round">
+          <div>
+            <span>C</span>
+            <span>F</span>
+          </div>
+        </span>
+      </label>
     </header>
     <div class="main-weather-display info">
       <div class="general-info">
         <p class="condition"></p>
         <h1 class="location"></h1>
+        <p class="condition date"></p>
         <span class="temp"></span>
       </div>
       <div class="weather-details info">
