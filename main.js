@@ -64,14 +64,14 @@ function processData(data) {
         ? Math.round(data.wind.speed * (18 / 5))
         : Math.round(data.wind.speed),
     humidity: data.main.humidity,
-    mainWeather: data.weather[0].main,
+    mainWeather: data.weather[0].main.toLowerCase(),
     timezone: data.timezone,
   };
   return myData;
 }
 // Displaying data on page
 function displayData(data) {
-  mainContainer.style.backgroundImage = `url("./images/${data.mainWeather.toLowerCase()}.jpg")`;
+  mainContainer.style.backgroundImage = `url("./images/${data.mainWeather}.jpg")`;
   let metricOrImp = unit === "metric" ? "&degC" : "&degF";
   let windMph = unit === "metric" ? "km/h" : "mph";
   const dateAndTime = data.timezone;
