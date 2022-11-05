@@ -71,7 +71,7 @@ function processData(data) {
 }
 // Displaying data on page
 function displayData(data) {
-  mainContainer.style.backgroundImage = `url("./images/${data.mainWeather}.jpg")`;
+  mainContainer.style.backgroundImage = `url("./images/${data.mainWeather.toLowerCase()}.jpg")`;
   let metricOrImp = unit === "metric" ? "&degC" : "&degF";
   let windMph = unit === "metric" ? "km/h" : "mph";
   const dateAndTime = data.timezone;
