@@ -2,11 +2,15 @@ const searchBtn = document.querySelector(".submit-btn");
 const form = document.querySelector("form");
 const mainContainer = document.getElementById("main-container");
 const errorMsg = document.querySelector(".error-msg");
-let regionNames = new Intl.DisplayNames(["en"], { type: "region" });
 const toggleSwitch = document.querySelector("[switch]");
 const temp = document.querySelector(".temp");
 const tempFeeling = document.querySelector(".feels-like");
 const wind = document.querySelector(".wind");
+const datePreview = document.querySelector(".date");
+const cityName = document.querySelector(".location");
+const condition = document.querySelector(".condition");
+const humidity = document.querySelector(".humidity");
+let regionNames = new Intl.DisplayNames(["en"], { type: "region" });
 
 let city = "Kraljevo";
 let unit = "metric";
@@ -74,38 +78,31 @@ function displayData(data) {
   mainContainer.style.backgroundImage = `url("./images/${data.mainWeather}.jpg")`;
   let metricOrImp = unit === "metric" ? "&degC" : "&degF";
   let windMph = unit === "metric" ? "km/h" : "mph";
+
   const dateAndTime = data.timezone;
 
-  const datePreview = (document.querySelector(".date").innerHTML =
-    getLocalTime(dateAndTime));
+  datePreview.innerHTML = getLocalTime(dateAndTime);
 
-  const cityName = (document.querySelector(".location").innerHTML = `${
-    data.city
-  }, ${regionNames.of(data.country)}`);
+  cityName.innerHTML = `${data.city}, ${regionNames.of(data.country)}`;
 
   temp.innerHTML = `${data.temp}${metricOrImp}`;
 
-  const condition = (document.querySelector(
-    ".condition",
-  ).innerHTML = `${data.condition}`);
+  condition.innerHTML = `${data.condition}`;
 
   tempFeeling.innerHTML = `Feels like: ${data.feelsLike}${metricOrImp}`;
 
-  const humidity = (document.querySelector(
-    ".humidity",
-  ).innerHTML = `Humidity: ${data.humidity}`);
+  humidity.innerHTML = `Humidity: ${data.humidity}`;
 
   wind.innerHTML = `Wind: ${data.wind}${windMph}`;
 
   // Temp switch
-  let tempValue;
-  let tempFeelValue;
+  let tempValue = data.temp;
+  let tempFeelValue = data.feelsLike;
   toggleSwitch.addEventListener("change", () => {
-    console.log(toggleSwitch.checked);
     if (toggleSwitch.checked) {
       unit = "imperial";
-      tempValue = toFahrenheit(data.temp);
-      tempFeelValue = toFahrenheit(data.feelsLike);
+      tempValue = toFahrenheit(tempValue);
+      tempFeelValue = toFahrenheit(tempFeelValue);
       temp.innerHTML = `${tempValue + "&degF"}`;
       tempFeeling.innerHTML = `${"Feels like: "}${tempFeelValue + "&degF"}`;
       wind.innerHTML = `Wind: ${Math.round(data.wind * 0.6)} mph`;
