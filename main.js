@@ -11,6 +11,7 @@ const cityName = document.querySelector(".location");
 const condition = document.querySelector(".condition");
 const humidity = document.querySelector(".humidity");
 let regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+const WEATHER_API_KEY = "4045f7b026733291f6fe104d28c865c9";
 
 let city = "Kraljevo";
 let unit = "metric";
@@ -23,7 +24,7 @@ form.addEventListener("submit", fetchWeather);
 async function getData(city, units) {
   try {
     const resp = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=4045f7b026733291f6fe104d28c865c9&units=${units}`,
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}&units=${units}`,
       { mode: "cors" },
     );
     const data = await resp.json();
