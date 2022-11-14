@@ -136,3 +136,12 @@ function getLocalTime(data) {
   let localTimeDate = new Date(localTime);
   return localTimeDate.toLocaleString();
 }
+
+//Adds Tilt effect
+VanillaTilt.init(document.querySelectorAll(".main-weather-display"), {
+  max: 4,
+  speed: 800,
+  scale: 1.03,
+  glare: true,
+  "max-glare": 0.5,
+});
